@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>@ViewBag.Message</h2>
+@foreach(var post in @Model) {
+  <div class="post-title">@post.Title</div>
+  
+  <p class="post">@post.Content</p>
+  
+  foreach(var comment in post.Comments) {
+    <div class="comment-title">
+      @if (@comment.Title != null) {
+        @comment.Title <text>-</text>
+      }
+      @comment.Date
+    </div>
+    <p class="comment">@comment.Content</p>
+  }
+  <br />
+}
