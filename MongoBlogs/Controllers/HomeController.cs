@@ -9,31 +9,32 @@ using MongoDB.Driver.Builders;
 
 namespace MongoBlogs.Controllers
 {
-  public class HomeController : Controller
-  {
-    public ActionResult Index()
+    public class HomeController : Controller
     {
-      ViewBag.Message = "Welcome to Mongo Blogs!";
-      
-      // For building more complicated connection strings, you should use the MongoUrlBuilder
-      const string ConnectionString = "mongodb://localhost/?safe=true";
-      var server = MongoServer.Create(ConnectionString);
-      var blog = server.GetDatabase("blog");
-      var posts = blog.GetCollection<PostModel>("posts");
+        public ActionResult Index()
+        {
+            ViewBag.Message = "Welcome to Mongo Blogs!";
 
-      var firstPost = new PostModel("First post!", "This is the first post on my very popular blog.");
-      firstPost.Comments.Add(new CommentModel("Great post", "I completely agree!"));
-      posts.Save(firstPost);
+            // For building more complicated connection strings, you should use the MongoUrlBuilder
+            const string ConnectionString = "mongodb://localhost/?safe=true";
+            var server = MongoServer.Create(ConnectionString);
+            var blog = server.GetDatabase("blog");
+            var posts = blog.GetCollection<PostModel>("posts");
 
-      var query = Query.EQ("Title", firstPost.Title);
-      var matchingPosts = posts.Find(query);
+            var firstPost = new PostModel("First post!", "This is the first post on my very popular blog.");
+            firstPost.Comments.Add(new CommentModel("Great post", "I completely agree!"));
+            posts.Save(firstPost);
 
-      return View(matchingPosts);
+            var query = Query.EQ("Title", firstPost.Title);
+            var matchingPosts = posts.Find(query);
+
+            return View(matchingPosts);
+        }
+
+        public ActionResult About()
+        {
+            return View();
+            // This is new comment I added to test the GitHub
+        }
     }
-
-    public ActionResult About()
-    {
-      return View();
-    }
-  }
 }
